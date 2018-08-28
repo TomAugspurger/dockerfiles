@@ -10,7 +10,8 @@ SKED=$!
 sleep 2
 declare -a WIDS
 for id in `seq 1 $nworkers`; do
-    CUDA_VISIBLE_DEVICES=`expr $id - 1` dask-worker $ip:$port --memory-limit=auto --nprocs=1 --nthreads=1 --name "worker_$id" &
+    export CUDA_VISIBLE_DEVICES=`expr $id - 1`
+    dask-worker $ip:$port --memory-limit=auto --nprocs=1 --nthreads=1 --name "worker_$id" &
     WIDS[$id]=$!
 done
 sleep 2
